@@ -1,7 +1,7 @@
 {
   "name": "pollmommy",
   "version": "1.0.0",
-  "main": "lib/index.js",
+  "main": "src/pollmommy.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hfreire/pollmommy.git"
@@ -47,7 +47,6 @@
     "coverage": "./node_modules/.bin/istanbul cover --report lcovonly test/* && ./node_modules/.bin/codecov",
     "clean": "rm -rf lib",
     "compile": "mkdir -p lib && ./node_modules/.bin/babel -o lib/index.js src/pollmommy.js src/user-agent.js",
-    "prepublish": "npm run compile",
-    "postinstall": "npm install && npm run compile"
+    "prepublish": "npm run compile"
   }
 }
