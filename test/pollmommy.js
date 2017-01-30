@@ -14,7 +14,7 @@ describe('pollmommy', () => {
   before(() => {
     UserAgent = td.replace('../src/user-agent', td.object('getRandom'))
 
-    horseman = td.object([ 'on', 'cookies', 'userAgent', 'open', 'click', 'evaluate' ])
+    horseman = td.object([ 'on', 'cookies', 'userAgent', 'open', 'click', 'evaluate', 'close' ])
     td.replace('node-horseman', function () { return horseman })
 
     PollMommy = require('../src/pollmommy')
@@ -27,6 +27,7 @@ describe('pollmommy', () => {
     td.when(horseman.open(td.matchers.anything())).thenReturn(horseman)
     td.when(horseman.click(td.matchers.anything())).thenReturn(horseman)
     td.when(horseman.evaluate(td.matchers.anything())).thenReturn(horseman)
+    td.when(horseman.close()).thenResolve()
   })
 
   afterEach(() => {
