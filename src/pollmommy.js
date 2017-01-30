@@ -16,7 +16,16 @@ const Horseman = require('node-horseman')
 const UserAgent = require('./user-agent')
 
 function vote (pollUrl, pollOptionId) {
-  return this.horseman
+  const horseman = new Horseman({
+    phantomPath: 'node_modules/.bin/phantomjs',
+    loadImages: false,
+    timeout: this.options.timeout,
+    proxy: this.options.proxy,
+    proxyType: this.options.proxyType,
+    proxyAuth: this.options.proxyAuth
+  })
+
+  return horseman
     .on('alert', (message) => {
       throw new Error(message)
     })
@@ -74,23 +83,12 @@ function vote (pollUrl, pollOptionId) {
       vote();
       /* eslint-enable */
     })
+    .close()
 }
 
 class PollMommy {
   constructor (options = {}) {
-    const _options = _.defaults(options, { timeout: 10000, maxRetries: 5, retryInterval: 1000 })
-
-    this.horseman = new Horseman({
-      phantomPath: 'node_modules/.bin/phantomjs',
-      loadImages: false,
-      timeout: _options.timeout,
-      proxy: _options.proxy,
-      proxyType: _options.proxyType,
-      proxyAuth: _options.proxyAuth
-    })
-
-    this.maxRetries = _options.maxRetries
-    this.retryInterval = _options.retryInterval
+    this.options = _.defaults(options, { timeout: 10000, maxRetries: 0, retryInterval: 1000 })
   }
 
   vote (pollId, pollOptionId) {
@@ -101,7 +99,7 @@ class PollMommy {
     const pollUrl = `${POLLDADDY_URL}/${pollId}/`
 
     return retry(() => vote.bind(this)(pollUrl, pollOptionId),
-      { max_tries: this.maxRetries, interval: this.retryInterval })
+      { max_tries: this.options.maxRetries, interval: this.options.retryInterval })
   }
 }
 
