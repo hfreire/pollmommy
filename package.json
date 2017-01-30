@@ -28,7 +28,7 @@
     "test": "node_modules/.bin/eslint src && node ./test/health-checkup.js | tap-spec && npm run coverage",
     "coverage": "./node_modules/.bin/istanbul cover --report lcovonly test/* && ./node_modules/.bin/codecov",
     "clean": "rm -rf lib",
-    "compile": "mkdir -p lib && ./node_modules/.bin/babel -o lib/index.js src/pollmommy.js",
+    "compile": "mkdir -p lib && ./node_modules/.bin/babel -o lib/index.js src/pollmommy.js src/user-agent.js",
     "prepublish": "npm run compile"
   },
   "devDependencies": {
