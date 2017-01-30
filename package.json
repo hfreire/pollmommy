@@ -48,6 +48,6 @@
     "clean": "rm -rf lib",
     "compile": "mkdir -p lib && ./node_modules/.bin/babel -o lib/index.js src/pollmommy.js src/user-agent.js",
     "prepublish": "npm run compile",
-    "postinstall": "npm run compile"
+    "postinstall": "npm install && npm run compile"
   }
 }
