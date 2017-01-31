@@ -19,9 +19,8 @@
     "cheerio": "^0.22.0",
     "commander": "^2.9.0",
     "lodash": "^4.17.2",
-    "node-horseman": "^3.1.1",
-    "phantomjs-prebuilt": "^2.1.12",
-    "request": "^2.75.0",
+    "node-horseman": "^3.2.0",
+    "phantomjs-prebuilt": "^2.1.14",
     "spooky": "^0.2.5"
   },
   "devDependencies": {

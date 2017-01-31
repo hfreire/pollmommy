@@ -5,8 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const POLLDADDY_URL = 'https://polldaddy.com/poll'
-
 const _ = require('lodash')
 const Promise = require('bluebird')
 const retry = require('bluebird-retry')
@@ -15,17 +13,10 @@ const Horseman = require('node-horseman')
 
 const UserAgent = require('./user-agent')
 
-function vote (pollUrl, pollOptionId) {
-  const horseman = new Horseman({
-    phantomPath: 'node_modules/.bin/phantomjs',
-    loadImages: false,
-    timeout: this.options.timeout,
-    proxy: this.options.proxy,
-    proxyType: this.options.proxyType,
-    proxyAuth: this.options.proxyAuth
-  })
+function vote (pollUrl, pollId, pollOptionId, evaluate) {
+  const userAgent = UserAgent.getRandom()
 
-  return horseman
+  return this.horseman
     .on('alert', (message) => {
       throw new Error(message)
     })
@@ -33,72 +24,105 @@ function vote (pollUrl, pollOptionId) {
       throw new Error(message)
     })
     .cookies([]) // clear cookies
-    .userAgent(UserAgent.getRandom())
-    .open(pollUrl)
-    .click(`label[for=${pollOptionId}]`)
-    .evaluate(function () {
-      /* eslint-disable */
-      function vote () {
-        var F = jQuery(".vote-button").data("vote");
-        log(F);
-        var G = "";
-        var E = "";
-        var C = "PDjs_poll_" + F.id + (F.v > 0 ? "_" + F.v : "");
-        log(C);
-        for (i = 0; i < document.formPoll.elements.length; i++) {
-          if (document.formPoll.elements[ i ].type == "checkbox" || document.formPoll.elements[ i ].type == "radio") {
-            if (document.formPoll.elements[ i ].checked) {
-              G += document.formPoll.elements[ i ].value + ","
-            }
-          }
-        }
-        if (document.formPoll.pz !== undefined) {
-          var B = document.formPoll.pz.value
-        } else {
-          var B = 1
-        }
-        if (parseInt(F.o) == 1) {
-          E = _$("PDI_OtherText").value
-        }
-        if (typeof document.formPoll.tags != "undefined") {
-          tags = "&tags=" + urlEncode(document.formPoll.tags.value)
-        } else {
-          tags = ""
-        }
-        if (G.length > 0 || E.length > 0) {
-          url = "/vote.php?va=" + F.at + tags + "&pt=" + F.m + "&r=" + F.b + "&p=" + F.id + "&a=" + urlEncode(G) + "&o=" + urlEncode(E) + "&t=" + F.t + "&token=" + F.n + "&pz=" + B;
-          if (F.b > 0) {
-            if (getCookie(C, F.e) == "true") {
-              url = "/poll/" + F.id + "/?view=results&msg=revoted"
-            } else {
-              setCookie(C, F.e)
-            }
-          }
-          location.href = url
-        } else {
-          alert(alert_no_answer)
-        }
-      }
-
-      vote();
-      /* eslint-enable */
-    })
-    .close()
+    .userAgent(userAgent)
+    .openTab(pollUrl)
+    .evaluate(evaluate, pollId, pollOptionId)
+    .closeTab(0)
 }
 
 class PollMommy {
   constructor (options = {}) {
-    this.options = _.defaults(options, { timeout: 10000, maxRetries: 0, retryInterval: 1000 })
+    this.options = _.defaults(options, { timeout: 30000, maxRetries: 0, retryInterval: 1000 })
+
+    this.horseman = new Horseman({
+      phantomPath: 'node_modules/.bin/phantomjs',
+      loadImages: false,
+      timeout: this.options.timeout,
+      proxy: this.options.proxy,
+      proxyType: this.options.proxyType,
+      proxyAuth: this.options.proxyAuth,
+      injectBluebird: true,
+      webSecurity: false
+    })
   }
 
-  vote (pollId, pollOptionId) {
-    if (!pollId || !pollOptionId) {
+  vote (pollUrl, pollId, pollOptionId) {
+    if (!pollUrl || !pollId || !pollOptionId) {
       return Promise.reject(new Error('invalid parameters'))
     }
 
-    const pollUrl = `${POLLDADDY_URL}/${pollId}/`
+    const evaluate = function (pollId, pollOptionId) {
+      /* eslint-disable */
+      var p = pollId;
+      var a = pollOptionId + ',';
+      var b = 1;
+      var o = '';
+      var va = 0;
+      var cookie = 0;
+      var url = encodeURIComponent(window.location.origin);
+      var now = new Date().getTime();
 
-    return retry(() => vote.bind(this)(pollUrl, pollOptionId),
+      return new Promise(function (resolve, reject) {
+        $.ajax({
+          url: 'http://static.polldaddy.com/p/' + p + '.js',
+          type: 'GET',
+          crossDomain: true,
+          success: function (data, status, xhr) {
+            var h;
+            try {
+              h = data.match(/var PDV_h\d+ = \'(.*)\';/)[ 1 ];
+            } catch (error) {
+              return reject(error)
+            }
+
+            resolve(h);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            reject(errorThrown)
+          }
+        });
+      })
+        .then(function (h) {
+          return new Promise(function (resolve, reject) {
+            $.ajax({
+              url: 'https://polldaddy.com/n/' + h + '/' + p + '?' + now,
+              type: 'GET',
+              crossDomain: true,
+              success: function (data, status, xhr) {
+                var n;
+                try {
+                  n = data.match(/PDV_n\d+=\'(.*)\';.*/)[ 1 ];
+                } catch (error) {
+                  return reject(error)
+                }
+
+                resolve(n);
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                reject(errorThrown)
+              }
+            });
+          })
+        })
+        .then(function (n) {
+          return new Promise(function (resolve, reject) {
+            $.ajax({
+              url: 'http://polls.polldaddy.com/vote-js.php?p=' + p + '&a=' + a + '&b=' + b + '&o=' + o + '&va=' + va + '&cookie=' + cookie + '&n=' + n + '&url=' + url,
+              type: 'GET',
+              crossDomain: true,
+              success: function (data, status, xhr) {
+                resolve();
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                reject(errorThrown)
+              }
+            });
+          })
+        });
+      /* eslint-enable */
+    }
+
+    return retry(() => vote.bind(this)(pollUrl, pollId, pollOptionId, evaluate),
       { max_tries: this.options.maxRetries, interval: this.options.retryInterval })
   }
 }
