@@ -7,7 +7,6 @@
 
 const _ = require('lodash')
 const Promise = require('bluebird')
-const retry = require('bluebird-retry')
 
 const Horseman = require('node-horseman')
 
@@ -32,7 +31,7 @@ function vote (pollUrl, pollId, pollOptionId, evaluate) {
 
 class PollMommy {
   constructor (options = {}) {
-    this.options = _.defaults(options, { timeout: 30000, maxRetries: 0, retryInterval: 1000 })
+    this.options = _.defaults(options, { timeout: 30000 })
 
     this.horseman = new Horseman({
       phantomPath: 'node_modules/.bin/phantomjs',
@@ -122,8 +121,7 @@ class PollMommy {
       /* eslint-enable */
     }
 
-    return retry(() => vote.bind(this)(pollUrl, pollId, pollOptionId, evaluate),
-      { max_tries: this.options.maxRetries, interval: this.options.retryInterval })
+    return vote.bind(this)(pollUrl, pollId, pollOptionId, evaluate)
   }
 }
 
