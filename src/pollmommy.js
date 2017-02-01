@@ -27,14 +27,14 @@ function vote (pollUrl, pollId, pollOptionId, evaluate) {
 
 class PollMommy {
   constructor (options = {}) {
-    this.options = _.defaults(options, { timeout: 30000 })
-
-    this.nightmare = Nightmare({
+    this.options = _.defaults(options, {
       show: false,
       webPreferences: {
         webSecurity: false
       }
     })
+
+    this.nightmare = Nightmare(options)
   }
 
   vote (pollUrl, pollId, pollOptionId) {
