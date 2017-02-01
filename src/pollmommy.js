@@ -17,12 +17,16 @@ const path = require('path')
 function vote (pollUrl, pollId, pollOptionId, evaluate) {
   const userAgent = UserAgent.getRandom()
 
-  return this.nightmare
-    .useragent(userAgent)
-    .goto(pollUrl)
-    .inject('js', path.join(__dirname, '../share/jquery/jquery-3.1.0.min.js'))
-    .evaluate(evaluate, pollId, pollOptionId)
-    .end()
+  return new Promise((resolve, reject) => {
+    this.nightmare
+      .useragent(userAgent)
+      .goto(pollUrl)
+      .inject('js', path.join(__dirname, '../share/jquery/jquery-3.1.0.min.js'))
+      .evaluate(evaluate, pollId, pollOptionId)
+      .end()
+      .then(resolve)
+      .catch(reject)
+  })
 }
 
 class PollMommy {
