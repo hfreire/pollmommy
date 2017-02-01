@@ -8,26 +8,24 @@
 describe('pollmommy', () => {
   let PollMommy
   let subject
-  let horseman
+  let nightmare
   let UserAgent
 
   before(() => {
     UserAgent = td.replace('../src/user-agent', td.object('getRandom'))
 
-    horseman = td.object([ 'on', 'cookies', 'userAgent', 'openTab', 'evaluate', 'closeTab', 'close' ])
-    td.replace('node-horseman', function () { return horseman })
+    nightmare = td.object([ 'useragent', 'goto', 'inject', 'evaluate', 'end' ])
+    td.replace('nightmare', function () { return nightmare })
 
     PollMommy = require('../src/pollmommy')
   })
 
   beforeEach(() => {
-    td.when(horseman.on(td.matchers.anything(), td.matchers.anything())).thenReturn(horseman)
-    td.when(horseman.cookies(td.matchers.anything())).thenReturn(horseman)
-    td.when(horseman.userAgent(td.matchers.anything())).thenReturn(horseman)
-    td.when(horseman.openTab(td.matchers.anything())).thenReturn(horseman)
-    td.when(horseman.evaluate(td.matchers.anything(), td.matchers.anything(), td.matchers.anything())).thenReturn(horseman)
-    td.when(horseman.closeTab(td.matchers.anything())).thenResolve()
-    td.when(horseman.close()).thenResolve()
+    td.when(nightmare.useragent(td.matchers.anything())).thenReturn(nightmare)
+    td.when(nightmare.goto(td.matchers.anything())).thenReturn(nightmare)
+    td.when(nightmare.inject(td.matchers.anything(), td.matchers.anything())).thenReturn(nightmare)
+    td.when(nightmare.evaluate(td.matchers.anything(), td.matchers.anything(), td.matchers.anything())).thenReturn(nightmare)
+    td.when(nightmare.end()).thenResolve()
   })
 
   afterEach(() => {
@@ -60,25 +58,11 @@ describe('pollmommy', () => {
         .then(() => {
           const captor = td.matchers.captor()
 
-          td.verify(horseman.userAgent(captor.capture()), { times: 1 })
+          td.verify(nightmare.useragent(captor.capture()), { times: 1 })
 
           const _userAgent = captor.value
 
           _userAgent.should.be.eql(userAgent)
-        })
-    })
-
-    it('should reset cookies', () => {
-      return subject.vote(pollUrl, pollId, pollOptionId)
-        .then(() => {
-          const captor = td.matchers.captor()
-
-          td.verify(horseman.cookies(captor.capture()), { times: 1 })
-
-          const cookies = captor.value
-
-          cookies.should.be.instanceof(Array)
-          cookies.should.be.empty
         })
     })
 
@@ -87,7 +71,7 @@ describe('pollmommy', () => {
         .then(() => {
           const captor = td.matchers.captor()
 
-          td.verify(horseman.openTab(captor.capture()), { times: 1 })
+          td.verify(nightmare.goto(captor.capture()), { times: 1 })
 
           const _pollUrl = captor.value
 
@@ -102,7 +86,7 @@ describe('pollmommy', () => {
           const pollIdCaptor = td.matchers.captor()
           const pollOptionIdCaptor = td.matchers.captor()
 
-          td.verify(horseman.evaluate(evaluateCaptor.capture(), pollIdCaptor.capture(), pollOptionIdCaptor.capture()), { times: 1 })
+          td.verify(nightmare.evaluate(evaluateCaptor.capture(), pollIdCaptor.capture(), pollOptionIdCaptor.capture()), { times: 1 })
 
           const _evaluate = evaluateCaptor.value
           const _pollId = pollIdCaptor.value

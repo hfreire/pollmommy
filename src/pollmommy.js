@@ -8,40 +8,32 @@
 const _ = require('lodash')
 const Promise = require('bluebird')
 
-const Horseman = require('node-horseman')
+const Nightmare = require('nightmare')
 
 const UserAgent = require('./user-agent')
+
+const path = require('path')
 
 function vote (pollUrl, pollId, pollOptionId, evaluate) {
   const userAgent = UserAgent.getRandom()
 
-  return this.horseman
-    .on('alert', (message) => {
-      throw new Error(message)
-    })
-    .on('error', (message) => {
-      throw new Error(message)
-    })
-    .cookies([]) // clear cookies
-    .userAgent(userAgent)
-    .openTab(pollUrl)
+  return this.nightmare
+    .useragent(userAgent)
+    .goto(pollUrl)
+    .inject('js', path.join(__dirname, '../share/jquery/jquery-3.1.0.min.js'))
     .evaluate(evaluate, pollId, pollOptionId)
-    .closeTab(0)
+    .end()
 }
 
 class PollMommy {
   constructor (options = {}) {
     this.options = _.defaults(options, { timeout: 30000 })
 
-    this.horseman = new Horseman({
-      phantomPath: 'node_modules/.bin/phantomjs',
-      loadImages: false,
-      timeout: this.options.timeout,
-      proxy: this.options.proxy,
-      proxyType: this.options.proxyType,
-      proxyAuth: this.options.proxyAuth,
-      injectBluebird: true,
-      webSecurity: false
+    this.nightmare = Nightmare({
+      show: false,
+      webPreferences: {
+        webSecurity: false
+      }
     })
   }
 
