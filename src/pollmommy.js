@@ -23,7 +23,6 @@ function vote (pollUrl, pollId, pollOptionId, evaluate) {
     const nightmare = Nightmare(this.options)
     nightmare
       .useragent(userAgent)
-      .cookies.clearAll()
       .goto(pollUrl)
       .inject('js', JQUERY_PATH)
       .evaluate(evaluate, pollId, pollOptionId)
