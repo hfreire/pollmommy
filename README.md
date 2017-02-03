@@ -10,9 +10,9 @@
 
 Uses a headless browser to visit a poll website and injects JavaScript code to perform the desired poll voting. 
 
-### Features
-* Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: to generate traffic on the poll website
-* Support for [Bluebird](https://github.com/petkaantonov/bluebird) :bird: promises
+### Dependencies
+* Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: to generate legit traffic on the poll website
+* Supports [Bluebird](https://github.com/petkaantonov/bluebird) :bird: promises
 
 ### How to install
 ```
