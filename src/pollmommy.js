@@ -14,14 +14,18 @@ const UserAgent = require('./user-agent')
 
 const path = require('path')
 
-function vote (pollUrl, pollId, pollOptionId, evaluate) {
-  const userAgent = UserAgent.getRandom()
+const JQUERY_PATH = path.join(__dirname, '../share/jquery/jquery-3.1.0.min.js')
 
+function vote (pollUrl, pollId, pollOptionId, evaluate) {
   return new Promise((resolve, reject) => {
-    this.nightmare
+    const userAgent = UserAgent.getRandom()
+
+    const nightmare = Nightmare(this.options)
+    nightmare
       .useragent(userAgent)
+      .cookies.clearAll()
       .goto(pollUrl)
-      .inject('js', path.join(__dirname, '../share/jquery/jquery-3.1.0.min.js'))
+      .inject('js', JQUERY_PATH)
       .evaluate(evaluate, pollId, pollOptionId)
       .end()
       .then(resolve)
@@ -37,8 +41,6 @@ class PollMommy {
         webSecurity: false
       }
     })
-
-    this.nightmare = Nightmare(options)
   }
 
   vote (pollUrl, pollId, pollOptionId) {
@@ -109,11 +111,26 @@ class PollMommy {
                 resolve();
               },
               error: function (jqXHR, textStatus, errorThrown) {
-                reject(errorThrown)
+                reject(errorThrown);
               }
             });
           })
-        });
+        })
+        .then(function () {
+          return new Promise(function (resolve, reject) {
+            $.ajax({
+              url: 'http://ipinfo.io/json',
+              type: 'GET',
+              crossDomain: true,
+              success: function (data, status, xhr) {
+                resolve(data);
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                reject(errorThrown);
+              }
+            });
+          });
+        })
       /* eslint-enable */
     }
 

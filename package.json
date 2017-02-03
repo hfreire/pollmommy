@@ -1,7 +1,7 @@
 {
   "name": "pollmommy",
   "version": "1.0.0",
-  "main": "src/pollmommy.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hfreire/pollmommy.git"
