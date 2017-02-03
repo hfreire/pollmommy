@@ -10,7 +10,7 @@
 
 ### Features
 * Support for [Bluebird](https://github.com/petkaantonov/bluebird) :bird: promises
-* Uses [Nightmare.js](http://www.nightmarejs.org/) headless browser generate traffic on the poll website
+* Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: headless browser generate traffic on the poll website
 * Injects :star: JavaScript code inside the poll website to vote
 
 ### How to install
@@ -23,7 +23,7 @@ node install pollmommy
 pollmommy $url $poll_id $poll_answer_id
 ```
 
-### How to use it your app
+### How to use it in your app
 ```javascript
 const Pollmommy = require('pollmommy')
 const pollmommy = new Pollmommy()
