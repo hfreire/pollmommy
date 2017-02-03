@@ -32,7 +32,7 @@ function vote (pollUrl, pollId, pollOptionId, evaluate) {
   })
 }
 
-class PollMommy {
+class Pollmommy {
   constructor (options = {}) {
     this.options = _.defaults(options, {
       show: false,
@@ -137,4 +137,4 @@ class PollMommy {
   }
 }
 
-module.exports = PollMommy
+module.exports = Pollmommy
