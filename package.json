@@ -1,7 +1,7 @@
 {
   "name": "pollmommy",
-  "version": "1.0.0",
-  "main": "src/index.js",
+  "version": "1.0.3",
+  "main": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hfreire/pollmommy.git"
@@ -27,7 +27,6 @@
     "eslint": "^3.3.1",
     "eslint-config-standard": "^6.0.0",
     "eslint-plugin-mocha": "^4.3.0",
-    "eslint-plugin-promise": "^2.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.0.2",
@@ -39,7 +38,7 @@
     "test": "node_modules/.bin/eslint . && node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --recursive test",
     "coverage": "./node_modules/.bin/istanbul cover --report lcovonly test/* && ./node_modules/.bin/codecov",
     "clean": "rm -rf lib",
-    "compile": "mkdir -p lib && ./node_modules/.bin/babel -o lib/index.js src/pollmommy.js src/user-agent.js",
+    "compile": "mkdir -p lib && ./node_modules/.bin/babel -o lib/index.js src/pollmommy.js && ./node_modules/.bin/babel -o lib/user-agent.js src/user-agent.js",
     "prepublish": "npm run compile"
   }
 }
