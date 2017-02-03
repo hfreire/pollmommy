@@ -10,7 +10,7 @@
 
 ### Features
 * Support for [Bluebird](https://github.com/petkaantonov/bluebird) :bird: promises
-* Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: headless browser generate traffic on the poll website
+* Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: to generate traffic on the poll website
 * Injects :star: JavaScript code inside the poll website to vote
 
 ### How to install
