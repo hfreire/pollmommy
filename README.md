@@ -28,7 +28,7 @@ pollmommy http://bbc.co.uk/should-trump-be-fired.html 324345 12939
 const Pollmommy = require('pollmommy')
 const pollmommy = new Pollmommy()
 
-pollmommy.vote('my-url', 'my-poll-id', 'my-poll-answer-id')
+pollmommy.vote('http://bbc.co.uk/should-trump-be-fired.html', 324345, 12939)
   .then(() => console.log('Voted successfully!'))
   .catch((error) => console.error(error.message))
 ```
