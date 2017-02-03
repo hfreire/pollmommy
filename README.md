@@ -8,15 +8,21 @@
 [![Version](https://img.shields.io/npm/v/pollmommy.svg)](https://www.npmjs.com/package/pollmommy)
 [![Downloads](https://img.shields.io/npm/dt/pollmommy.svg)](https://www.npmjs.com/package/pollmommy) 
 
+Uses a headless browser to visit a poll website and injects JavaScript code to perform the desired poll voting. 
+
 ### Features
-* Support for [Bluebird](https://github.com/petkaantonov/bluebird) :bird: promises
 * Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: to generate traffic on the poll website
-* Injects :star: JavaScript code inside the poll website to vote
+* Support for [Bluebird](https://github.com/petkaantonov/bluebird) :bird: promises
 
 ### How to install
 ```
 node install pollmommy
 ```
+
+## How to fetch the required parameters
+* URL - The poll's website URL, can be Polldaddy's website or the embedded poll website.
+* Poll identifier - The Polldaddy's poll identifier.
+* Poll option identifier - The Polldaddy's poll option identifier.
 
 ### How to use it in the terminal
 ```bash
