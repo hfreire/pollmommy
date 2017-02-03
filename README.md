@@ -20,7 +20,7 @@ node install pollmommy
 
 ### How to use it in the terminal
 ```bash
-pollmommy $url $poll_id $poll_answer_id
+pollmommy http://bbc.co.uk/should-trump-be-fired.html 324345 12939
 ```
 
 ### How to use it in your app
@@ -29,4 +29,6 @@ const Pollmommy = require('pollmommy')
 const pollmommy = new Pollmommy()
 
 pollmommy.vote('my-url', 'my-poll-id', 'my-poll-answer-id')
+  .then(() => console.log('Voted successfully!'))
+  .catch((error) => console.error(error.message))
 ```
