@@ -18,7 +18,7 @@ Uses a headless browser to visit a poll website and inject JavaScript code to pe
 
 ### How to install
 ```
-node install pollmommy
+npm install pollmommy -g
 ```
 
 ### How to fetch the required parameters
