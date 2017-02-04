@@ -4,7 +4,8 @@
   ],
   "parser": "babel-eslint",
   "plugins": [
-    "mocha"
+    "mocha",
+    "node"
   ],
   "globals": {
     "describe": true,
@@ -18,5 +19,18 @@
     "mockery": true,
     "sinon": true,
     "td": true
+  },
+  "rules": {
+    "node/shebang": [
+      "error",
+      {
+        "convertPath": {
+          "src/app.js": [
+            "src/app.js",
+            "bin/pollmommy.js"
+          ]
+        }
+      }
+    ]
   }
 }
