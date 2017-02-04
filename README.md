@@ -22,9 +22,9 @@ npm install pollmommy -g
 ```
 
 ### How to fetch the required parameters
-* URL - The poll's website URL, can be Polldaddy's website or the embedded poll website.
-* Poll identifier - The Polldaddy's poll identifier, inspect the website HTML code and search for this pattern PDI_containerNUMBER - NUMBER will be the id.
-* Poll option identifier - The Polldaddy's poll option identifier, picke the desired option and inspect the website HTML code and search for this pattern PDI_answerNUMBER - NUMBER will be the id.
+* URL - The poll's website URL, Polldaddy's poll website or the embedded poll website.
+* Poll id - The Polldaddy's poll identifier, inspect the website HTML code and search for this pattern PDI_containerNUMBER - NUMBER will be the id.
+* Poll option id - The Polldaddy's poll option identifier, pick the desired option and inspect the website HTML code and search for this pattern PDI_answerNUMBER - NUMBER will be the id.
 
 ### How to use it in the terminal
 ```bash
