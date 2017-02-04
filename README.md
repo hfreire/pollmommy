@@ -21,7 +21,7 @@ Uses a headless browser to visit a poll website and injects JavaScript code to p
 node install pollmommy
 ```
 
-## How to fetch the required parameters
+### How to fetch the required parameters
 * URL - The poll's website URL, can be Polldaddy's website or the embedded poll website.
 * Poll identifier - The Polldaddy's poll identifier.
 * Poll option identifier - The Polldaddy's poll option identifier.
