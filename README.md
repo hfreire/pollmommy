@@ -12,7 +12,7 @@ Uses a headless browser to visit a poll website and inject JavaScript code to pe
 
 <img src="https://raw.githubusercontent.com/hfreire/pollmommy/master/share/github/voting-screencapture.gif" width="430">
 
-### Dependencies
+### Features
 * Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: to generate legit traffic on the poll website :white_check_mark:
 * Supports [Bluebird](https://github.com/petkaantonov/bluebird) :bird: promises :white_check_mark:
 
@@ -21,17 +21,20 @@ Uses a headless browser to visit a poll website and inject JavaScript code to pe
 npm install pollmommy -g
 ```
 
-### How to fetch the required parameters
+### How to use
+
+#### Fetch the required parameters
 * URL - The poll's website URL, Polldaddy's poll website or the embedded poll website.
 * Poll id - The Polldaddy's poll identifier, inspect the website HTML code and search for this pattern PDI_containerNUMBER - NUMBER will be the id.
 * Poll option id - The Polldaddy's poll option identifier, pick the desired option and inspect the website HTML code and search for this pattern PDI_answerNUMBER - NUMBER will be the id.
 
-### How to use it in the terminal
-```bash
+
+#### Use it in your terminal
+```
 pollmommy http://bbc.co.uk/should-trump-be-fired.html 324345 12939
 ```
 
-### How to use it in your app
+#### Use it in your app
 ```javascript
 const Pollmommy = require('pollmommy')
 const pollmommy = new Pollmommy()
