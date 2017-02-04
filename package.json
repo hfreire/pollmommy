@@ -1,6 +1,7 @@
 {
   "name": "pollmommy",
-  "version": "1.0.4",
+  "description": "Hack your vote out of Polldaddy surveys - used by BBC, Microsoft, Forbes, Pfizer, IBM",
+  "version": "1.0.5",
   "main": "lib/index.js",
   "bin": {
     "pollmommy": "bin/pollmommy.js"
