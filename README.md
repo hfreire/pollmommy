@@ -13,8 +13,8 @@ Uses a headless browser to visit a poll website and inject JavaScript code to pe
 <img src="https://raw.githubusercontent.com/hfreire/pollmommy/master/share/github/voting-screencapture.gif" width="430">
 
 ### Dependencies
-* Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: to generate legit traffic on the poll website
-* Supports [Bluebird](https://github.com/petkaantonov/bluebird) :bird: promises
+* Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: to generate legit traffic on the poll website :white_check_mark:
+* Supports [Bluebird](https://github.com/petkaantonov/bluebird) :bird: promises :white_check_mark:
 
 ### How to install
 ```
