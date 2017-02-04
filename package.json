@@ -48,6 +48,7 @@
     "test": "npm test && npm run coverage",
     "clean": "rm -rf bin lib coverage",
     "compile": "mkdir -p bin lib && ./node_modules/.bin/babel -o lib/index.js src/pollmommy.js && ./node_modules/.bin/babel -o lib/user-agent.js src/user-agent.js && ./node_modules/.bin/babel -o bin/pollmommy.js src/app.js",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run compile",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
   }
 }

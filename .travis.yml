@@ -4,4 +4,4 @@ notifications:
 node_js:
   - '6.3'
 after_success:
-  - ./node_modules/.bin/coveralls <(cat ./coverage/lcov.info)
+  - 'npm run coveralls'
