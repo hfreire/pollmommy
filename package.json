@@ -1,7 +1,7 @@
 {
   "name": "pollmommy",
   "version": "1.0.4",
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
   "bin": {
     "pollmommy": "bin/pollmommy.js"
   },
