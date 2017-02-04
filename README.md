@@ -8,7 +8,7 @@
 [![Version](https://img.shields.io/npm/v/pollmommy.svg)](https://www.npmjs.com/package/pollmommy)
 [![Downloads](https://img.shields.io/npm/dt/pollmommy.svg)](https://www.npmjs.com/package/pollmommy) 
 
-Uses a headless browser to visit a poll website and inject JavaScript code to perform the desired poll voting. Used by [Let's make :city_sunrise: Porto :trophy: win the :euro: European Best Destination :tada: 2017](https://github.com/hfreire/make-porto-win-european-best-destination-2017) hack.
+Uses a headless browser to visit a poll website and inject JavaScript code to perform the desired poll voting.
 
 <img src="https://raw.githubusercontent.com/hfreire/pollmommy/master/share/github/voting-screencapture.gif" width="430">
 
@@ -40,3 +40,6 @@ pollmommy.vote('http://bbc.co.uk/should-trump-be-fired.html', 324345, 12939)
   .then(() => console.log('Voted successfully!'))
   .catch((error) => console.error(error.message))
 ```
+
+### Used by
+*  [Let's make :city_sunrise: Porto :trophy: win the :euro: European Best Destination :tada: 2017](https://github.com/hfreire/make-porto-win-european-best-destination-2017)
