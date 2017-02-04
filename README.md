@@ -10,6 +10,8 @@
 
 Uses a headless browser to visit a poll website and injects JavaScript code to perform the desired poll voting. 
 
+[[ https://raw.githubusercontent.com/hfreire/pollmommy/master/share/github/vote-screencapture.gif | height = 157px ]]
+
 ### Dependencies
 * Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: to generate legit traffic on the poll website
 * Supports [Bluebird](https://github.com/petkaantonov/bluebird) :bird: promises
