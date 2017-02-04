@@ -23,8 +23,8 @@ node install pollmommy
 
 ### How to fetch the required parameters
 * URL - The poll's website URL, can be Polldaddy's website or the embedded poll website.
-* Poll identifier - The Polldaddy's poll identifier.
-* Poll option identifier - The Polldaddy's poll option identifier.
+* Poll identifier - The Polldaddy's poll identifier, inspect the website HTML code and look for this pattern PDI_container324345 - 324345 will be the id.
+* Poll option identifier - The Polldaddy's poll option identifier, picke the desired option and inspect the website HTML code and look for this pattern PDI_answer12939 - 12939 will be the id.
 
 ### How to use it in the terminal
 ```bash

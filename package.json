@@ -1,7 +1,7 @@
 {
   "name": "pollmommy",
   "version": "1.0.4",
-  "main": "./lib/index.js",
+  "main": "lib/index.js",
   "bin": {
     "pollmommy": "bin/pollmommy.js"
   },
@@ -44,7 +44,7 @@
     "test": "node_modules/.bin/eslint . && node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- --recursive test",
     "coverage": "./node_modules/.bin/istanbul cover --report lcovonly test/* && ./node_modules/.bin/codecov",
     "clean": "rm -rf {bin,lib}",
-    "compile": "mkdir -p {bin,lib} && ./node_modules/.bin/babel -o ./lib/index.js ./src/pollmommy.js && ./node_modules/.bin/babel -o ./lib/user-agent.js ./src/user-agent.js && ./node_modules/.bin/babel -o bin/pollmommy.js src/app.js",
+    "compile": "mkdir -p {bin,lib} && ./node_modules/.bin/babel -o lib/index.js src/pollmommy.js && ./node_modules/.bin/babel -o lib/user-agent.js src/user-agent.js && ./node_modules/.bin/babel -o bin/pollmommy.js src/app.js",
     "prepublish": "npm run compile"
   }
 }
