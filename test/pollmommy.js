@@ -6,7 +6,7 @@
  */
 
 describe('pollmommy', () => {
-  let PollMommy
+  let Pollmommy
   let subject
   let nightmare
   let UserAgent
@@ -17,7 +17,7 @@ describe('pollmommy', () => {
     nightmare = td.object([ 'useragent', 'goto', 'inject', 'evaluate', 'end' ])
     td.replace('nightmare', function () { return nightmare })
 
-    PollMommy = require('../src/pollmommy')
+    Pollmommy = require('../src/pollmommy')
   })
 
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe('pollmommy', () => {
     const userAgent = 'my-user-agent'
 
     before(() => {
-      subject = new PollMommy({ maxRetries })
+      subject = new Pollmommy({ maxRetries })
     })
 
     beforeEach(() => {
