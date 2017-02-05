@@ -10,7 +10,7 @@
 
 Uses a headless browser to visit a poll website and inject JavaScript code to perform the desired poll voting.
 
-<img src="https://raw.githubusercontent.com/hfreire/pollmommy/master/share/github/voting-screencapture.gif" width="600">
+<p align="center"><img src="https://raw.githubusercontent.com/hfreire/pollmommy/master/share/github/voting-screencapture.gif" width="540"></p>
 
 ### Features
 * Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: to generate legit traffic on the poll website :white_check_mark:
