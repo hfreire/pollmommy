@@ -9,10 +9,10 @@ describe('pollmommy', () => {
   let Pollmommy
   let subject
   let nightmare
-  let UserAgent
+  let RandomUserAgent
 
   before(() => {
-    UserAgent = td.replace('../src/user-agent', td.object('getRandom'))
+    RandomUserAgent = td.replace('random-http-useragent', td.object('get'))
 
     nightmare = td.object([ 'useragent', 'goto', 'inject', 'evaluate', 'end' ])
     td.replace('nightmare', function () { return nightmare })
@@ -44,7 +44,7 @@ describe('pollmommy', () => {
     })
 
     beforeEach(() => {
-      td.when(UserAgent.getRandom()).thenReturn(userAgent)
+      td.when(RandomUserAgent.get()).thenResolve(userAgent)
     })
 
     it('should fulfill promise', () => {

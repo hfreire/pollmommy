@@ -10,26 +10,23 @@ const Promise = require('bluebird')
 
 const Nightmare = require('nightmare')
 
-const UserAgent = require('./user-agent')
+const RandomUserAgent = require('random-http-useragent')
 
 const path = require('path')
 
 const JQUERY_PATH = path.join(__dirname, '../share/jquery/jquery-3.1.0.min.js')
 
 function vote (pollUrl, pollId, pollOptionId, evaluate) {
-  return new Promise((resolve, reject) => {
-    const userAgent = UserAgent.getRandom()
-
-    const nightmare = Nightmare(this.options)
-    nightmare
-      .useragent(userAgent)
-      .goto(pollUrl)
-      .inject('js', JQUERY_PATH)
-      .evaluate(evaluate, pollId, pollOptionId)
-      .end()
-      .then(resolve)
-      .catch(reject)
-  })
+  return RandomUserAgent.get()
+    .then((userAgent) => {
+      const nightmare = Nightmare(this.options)
+      nightmare
+        .useragent(userAgent)
+        .goto(pollUrl)
+        .inject('js', JQUERY_PATH)
+        .evaluate(evaluate, pollId, pollOptionId)
+        .end()
+    })
 }
 
 class Pollmommy {
