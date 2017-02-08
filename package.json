@@ -1,7 +1,7 @@
 {
   "name": "pollmommy",
   "description": "Hack your vote out of Polldaddy surveys - used by BBC, Microsoft, Forbes, Pfizer, IBM",
-  "version": "1.0.6",
+  "version": "0.0.0",
   "main": "lib/index.js",
   "bin": {
     "pollmommy": "bin/pollmommy.js"
@@ -38,8 +38,15 @@
     "eslint-plugin-standard": "2.0.0",
     "istanbul": "0.4.5",
     "mocha": "3.0.2",
+    "semantic-release": "6.3.2",
+    "pre-git": "3.12.1",
     "standard": "8.0.0",
     "testdouble": "1.9.0"
+  },
+  "config": {
+    "pre-git": {
+      "commit-msg": "conventional"
+    }
   },
   "scripts": {
     "clean": "rm -rf bin lib coverage",
@@ -48,6 +55,8 @@
     "test": "npm run lint && npm run coverage",
     "compile": "mkdir -p bin lib && ./node_modules/.bin/babel -o lib/index.js src/pollmommy.js && ./node_modules/.bin/babel -o bin/pollmommy.js src/app.js",
     "prepublish": "npm run compile",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "semantic-release": "./node_modules/.bin/semantic-release pre && npm publish && node_modules/.bin/semantic-release post",
+    "commit": "./node_modules/.bin/commit-wizard"
   }
 }
