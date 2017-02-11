@@ -3,8 +3,6 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Build Status](https://travis-ci.org/hfreire/pollmommy.svg?branch=master)](https://travis-ci.org/hfreire/pollmommy)
 [![Coverage Status](https://coveralls.io/repos/github/hfreire/pollmommy/badge.svg?branch=master)](https://coveralls.io/github/hfreire/pollmommy?branch=master)
-[![Dependency Status](https://img.shields.io/david/hfreire/pollmommy.svg?style=flat)](https://david-dm.org/hfreire/pollmommy)
-[![devDependencies Status](https://david-dm.org/hfreire/pollmommy/dev-status.svg)](https://david-dm.org/hfreire/pollmommy?type=dev)
 [![Greenkeeper badge](https://badges.greenkeeper.io/hfreire/pollmommy.svg)](https://greenkeeper.io/)
 [![](https://img.shields.io/github/release/hfreire/pollmommy.svg)](https://github.com/hfreire/pollmommy/releases)
 [![](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
