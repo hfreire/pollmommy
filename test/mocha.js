@@ -19,4 +19,3 @@ td.config({
 
 global.should = chai.should()
 global.td = td
-
