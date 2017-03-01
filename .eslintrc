@@ -27,7 +27,7 @@
         "convertPath": {
           "src/app.js": [
             "src/app.js",
-            "bin/pollmommy.js"
+            "bin/app.js"
           ]
         }
       }
