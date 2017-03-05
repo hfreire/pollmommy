@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/hfreire/pollmommy#readme",
   "dependencies": {
-    "bluebird": "3.4.7",
+    "bluebird": "3.5.0",
     "commander": "2.9.0",
     "lodash": "4.17.4",
     "nightmare": "2.10.0",
