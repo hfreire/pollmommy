@@ -48,4 +48,4 @@ pollmommy.vote('http://bbc.co.uk/should-trump-be-fired.html', 324345, 12939)
 ```
 
 ### Used by
-*  [Let's make :city_sunrise: Porto :trophy: win the :euro: European Best Destination :tada: 2017](https://github.com/hfreire/make-porto-win-european-best-destination-2017)
+*  [make-porto-win-european-best-destination-2017](https://github.com/hfreire/make-porto-win-european-best-destination-2017) - Let's make :city_sunrise: Porto :trophy: win the :euro: European Best Destination :tada: 2017
