@@ -15,7 +15,7 @@ const RandomUserAgent = require('random-http-useragent')
 
 const path = require('path')
 
-const JQUERY_PATH = path.join(__dirname, '../share/jquery/jquery-3.1.0.min.js')
+const jqueryPath = path.join(__dirname, '../share/jquery/jquery-3.1.0.min.js')
 
 function vote (pollUrl, pollId, pollOptionId, evaluate) {
   return RandomUserAgent.get()
@@ -25,7 +25,7 @@ function vote (pollUrl, pollId, pollOptionId, evaluate) {
       return nightmare
         .useragent(userAgent)
         .goto(pollUrl)
-        .inject('js', JQUERY_PATH)
+        .inject('js', jqueryPath)
         .evaluate(evaluate, pollId, pollOptionId)
         .end()
         .then()
