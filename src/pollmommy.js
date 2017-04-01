@@ -9,6 +9,7 @@ const _ = require('lodash')
 const Promise = require('bluebird')
 
 const Nightmare = require('nightmare')
+Nightmare.Promise = require('bluebird')
 
 const RandomUserAgent = require('random-http-useragent')
 
@@ -20,12 +21,14 @@ function vote (pollUrl, pollId, pollOptionId, evaluate) {
   return RandomUserAgent.get()
     .then((userAgent) => {
       const nightmare = Nightmare(this.options)
-      nightmare
+
+      return nightmare
         .useragent(userAgent)
         .goto(pollUrl)
         .inject('js', JQUERY_PATH)
         .evaluate(evaluate, pollId, pollOptionId)
         .end()
+        .then()
     })
 }
 
