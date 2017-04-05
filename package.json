@@ -31,7 +31,7 @@
     "chai-as-promised": "6.0.0",
     "coveralls": "2.13.0",
     "eslint": "3.19.0",
-    "eslint-config-standard": "7.1.0",
+    "eslint-config-standard": "10.0.0",
     "eslint-plugin-mocha": "4.9.0",
     "eslint-plugin-node": "4.2.2",
     "eslint-plugin-promise": "3.5.0",
