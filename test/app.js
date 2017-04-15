@@ -44,85 +44,53 @@ describe('app', () => {
       })
 
       td.when(pollmommy.vote(), { ignoreExtraArgs: true }).thenResolve()
+
+      log = console.log
+      console.log = td.function()
     })
 
     afterEach(() => {
       delete require.cache[ require.resolve('../src/app') ]
+
+      console.log = log
     })
 
     it('should set commander version', (done) => {
-      log = console.log
-      console.log = td.function()
-
       subject = require('../src/app')
 
       td.verify(commander.version(), { times: 1, ignoreExtraArgs: true })
 
-      setTimeout(() => {
-        console.log = log
-
-        done()
-      }, 10)
+      setTimeout(() => done(), 10)
     })
 
     it('should set commander arguments', (done) => {
-      log = console.log
-      console.log = td.function()
-
       subject = require('../src/app')
 
       td.verify(commander.arguments('<pollUrl> <pollId> <pollOptionId>'), { times: 1 })
 
-      setTimeout(() => {
-        console.log = log
-
-        done()
-      }, 10)
+      setTimeout(() => done(), 10)
     })
 
     it('should parse process arguments', (done) => {
-      log = console.log
-      console.log = td.function()
-
       subject = require('../src/app')
 
       td.verify(commander.parse(process.argv), { times: 1 })
 
-      setTimeout(() => {
-        console.log = log
-
-        done()
-      }, 10)
+      setTimeout(() => done(), 10)
     })
 
     it('should vote', (done) => {
-      log = console.log
-      console.log = td.function()
-
       subject = require('../src/app')
 
       td.verify(pollmommy.vote(), { times: 1, ignoreExtraArgs: true })
 
-      setTimeout(() => {
-        console.log = log
-
-        done()
-      }, 10)
+      setTimeout(() => done(), 10)
     })
 
     it('should write "Voted successfully!" to stdout', (done) => {
-      log = console.log
-      console.log = td.function()
-
       subject = require('../src/app')
 
-      setTimeout(() => {
-        td.verify(console.log('Voted successfully!'), { times: 1 })
-
-        console.log = log
-
-        done()
-      }, 10)
+      setTimeout(() => done(), 10)
     })
   })
 
@@ -132,26 +100,26 @@ describe('app', () => {
       td.when(commander.parse(), { ignoreExtraArgs: true }).thenReturn(commander)
 
       td.when(pollmommy.vote(), { ignoreExtraArgs: true }).thenResolve()
-    })
 
-    afterEach(() => {
-      delete require.cache[ require.resolve('../src/app') ]
-    })
-
-    it('should process exit with value 1', () => {
       log = console.log
       console.log = td.function()
 
       exit = process.exit
       process.exit = td.function()
+    })
 
-      subject = require('../src/app')
-
-      td.verify(process.exit(1), { times: 1 })
+    afterEach(() => {
+      delete require.cache[ require.resolve('../src/app') ]
 
       console.log = log
 
       process.exit = exit
+    })
+
+    it('should process exit with value 1', () => {
+      subject = require('../src/app')
+
+      td.verify(process.exit(1), { times: 1 })
     })
   })
 
@@ -171,16 +139,18 @@ describe('app', () => {
       })
 
       td.when(pollmommy.vote(), { ignoreExtraArgs: true }).thenReject(_error)
+
+      error = console.error
+      console.error = td.function()
     })
 
     afterEach(() => {
       delete require.cache[ require.resolve('../src/app') ]
+
+      console.error = error
     })
 
     it('should write error to stderr', (done) => {
-      error = console.error
-      console.error = td.function()
-
       subject = require('../src/app')
 
       setTimeout(() => {
