@@ -6,31 +6,17 @@
  */
 
 describe('pollmommy', () => {
-  let Pollmommy
   let subject
   let nightmare
-  let RandomUserAgent
+  let RandomHttpUserAgent
 
   before(() => {
-    RandomUserAgent = td.replace('random-http-useragent', td.object('get'))
+    RandomHttpUserAgent = td.object('get')
 
     nightmare = td.object([ 'useragent', 'goto', 'inject', 'evaluate', 'end' ])
-    td.replace('nightmare', function () { return nightmare })
-
-    Pollmommy = require('../src/pollmommy')
   })
 
-  beforeEach(() => {
-    td.when(nightmare.useragent(td.matchers.anything())).thenReturn(nightmare)
-    td.when(nightmare.goto(td.matchers.anything())).thenReturn(nightmare)
-    td.when(nightmare.inject(td.matchers.anything(), td.matchers.anything())).thenReturn(nightmare)
-    td.when(nightmare.evaluate(td.matchers.anything(), td.matchers.anything(), td.matchers.anything())).thenReturn(nightmare)
-    td.when(nightmare.end()).thenResolve()
-  })
-
-  afterEach(() => {
-    td.reset()
-  })
+  afterEach(() => td.reset())
 
   describe('when voting successfully', () => {
     const pollUrl = 'my-url'
@@ -39,12 +25,19 @@ describe('pollmommy', () => {
     const maxRetries = 0
     const userAgent = 'my-user-agent'
 
-    before(() => {
-      subject = new Pollmommy({ maxRetries })
-    })
-
     beforeEach(() => {
-      td.when(RandomUserAgent.get()).thenResolve(userAgent)
+      td.when(RandomHttpUserAgent.get()).thenResolve(userAgent)
+      td.replace('random-http-useragent', RandomHttpUserAgent)
+
+      td.when(nightmare.useragent(td.matchers.anything())).thenReturn(nightmare)
+      td.when(nightmare.goto(td.matchers.anything())).thenReturn(nightmare)
+      td.when(nightmare.inject(td.matchers.anything(), td.matchers.anything())).thenReturn(nightmare)
+      td.when(nightmare.evaluate(td.matchers.anything(), td.matchers.anything(), td.matchers.anything())).thenReturn(nightmare)
+      td.when(nightmare.end()).thenResolve()
+      td.replace('nightmare', function () { return nightmare })
+
+      const Pollmommy = require('../src/pollmommy')
+      subject = new Pollmommy({ maxRetries })
     })
 
     it('should fulfill promise', () => {

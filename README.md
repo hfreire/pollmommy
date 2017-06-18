@@ -14,7 +14,7 @@ Uses a headless browser to visit a poll website and inject JavaScript code to pe
 <p align="center"><img src="https://raw.githubusercontent.com/hfreire/pollmommy/master/share/github/voting-screencapture.gif" width="540"></p>
 
 ### Features
-* Uses [Nightmare.js](http://www.nightmarejs.org/) :scream: to generate legit traffic on the poll website :white_check_mark:
+* Uses [Nightmare](http://www.nightmarejs.org/) :scream: to generate legit traffic on the poll website :white_check_mark:
 * Supports [Bluebird](https://github.com/petkaantonov/bluebird) :bird: promises :white_check_mark:
 
 ### How to install
@@ -38,6 +38,7 @@ pollmommy http://bbc.co.uk/should-trump-be-fired.html 324345 12939
 ```
 
 #### Use it in your app
+Create a pollmommy instance and vote to get Trump fired
 ```javascript
 const Pollmommy = require('pollmommy')
 const pollmommy = new Pollmommy()

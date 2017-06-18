@@ -41,12 +41,10 @@ if (!pollUrl || !pollId || !pollOptionId) {
   process.exit(1)
 }
 
-const Pollmommy = require('../lib')
+const Pollmommy = require('../lib/pollmommy')
 const pollmommy = new Pollmommy()
 
 // noinspection JSUnusedAssignment
 pollmommy.vote(pollUrl, pollId, pollOptionId)
-  .then(() => {
-    console.log('Voted successfully!')
-  })
+  .then(() => console.log('Voted successfully!'))
   .catch((error) => console.error(error))

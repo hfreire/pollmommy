@@ -11,14 +11,14 @@ const Promise = require('bluebird')
 const Nightmare = require('nightmare')
 Nightmare.Promise = require('bluebird')
 
-const RandomUserAgent = require('random-http-useragent')
+const RandomHttpUserAgent = require('random-http-useragent')
 
 const path = require('path')
 
 const jqueryPath = path.join(__dirname, '../share/jquery/jquery-3.1.0.min.js')
 
 function vote (pollUrl, pollId, pollOptionId, evaluate) {
-  return RandomUserAgent.get()
+  return RandomHttpUserAgent.get()
     .then((userAgent) => {
       const nightmare = Nightmare(this.options)
 
@@ -32,14 +32,16 @@ function vote (pollUrl, pollId, pollOptionId, evaluate) {
     })
 }
 
+const defaultOptions = {
+  show: false,
+  webPreferences: {
+    webSecurity: false
+  }
+}
+
 class Pollmommy {
   constructor (options = {}) {
-    this.options = _.defaults(options, {
-      show: false,
-      webPreferences: {
-        webSecurity: false
-      }
-    })
+    this.options = _.defaultsDeep(options, defaultOptions)
   }
 
   vote (pollUrl, pollId, pollOptionId) {
@@ -49,14 +51,14 @@ class Pollmommy {
 
     const evaluate = function (pollId, pollOptionId) {
       /* eslint-disable */
-      var p = pollId;
-      var a = pollOptionId + ',';
-      var b = 1;
-      var o = '';
-      var va = 0;
-      var cookie = 0;
-      var url = encodeURIComponent(window.location.origin);
-      var now = new Date().getTime();
+      var p = pollId
+      var a = pollOptionId + ','
+      var b = 1
+      var o = ''
+      var va = 0
+      var cookie = 0
+      var url = encodeURIComponent(window.location.origin)
+      var now = new Date().getTime()
 
       return new Promise(function (resolve, reject) {
         $.ajax({
@@ -64,19 +66,19 @@ class Pollmommy {
           type: 'GET',
           crossDomain: true,
           success: function (data, status, xhr) {
-            var h;
+            var h
             try {
-              h = data.match(/var PDV_h\d+ = \'(.*)\';/)[ 1 ];
+              h = data.match(/var PDV_h\d+ = \'(.*)\';/)[ 1 ]
             } catch (error) {
               return reject(error)
             }
 
-            resolve(h);
+            resolve(h)
           },
           error: function (jqXHR, textStatus, errorThrown) {
             reject(errorThrown)
           }
-        });
+        })
       })
         .then(function (h) {
           return new Promise(function (resolve, reject) {
@@ -85,19 +87,19 @@ class Pollmommy {
               type: 'GET',
               crossDomain: true,
               success: function (data, status, xhr) {
-                var n;
+                var n
                 try {
-                  n = data.match(/PDV_n\d+=\'(.*)\';.*/)[ 1 ];
+                  n = data.match(/PDV_n\d+=\'(.*)\';.*/)[ 1 ]
                 } catch (error) {
                   return reject(error)
                 }
 
-                resolve(n);
+                resolve(n)
               },
               error: function (jqXHR, textStatus, errorThrown) {
                 reject(errorThrown)
               }
-            });
+            })
           })
         })
         .then(function (n) {
@@ -107,12 +109,12 @@ class Pollmommy {
               type: 'GET',
               crossDomain: true,
               success: function (data, status, xhr) {
-                resolve();
+                resolve()
               },
               error: function (jqXHR, textStatus, errorThrown) {
-                reject(errorThrown);
+                reject(errorThrown)
               }
-            });
+            })
           })
         })
         .then(function () {
@@ -122,13 +124,13 @@ class Pollmommy {
               type: 'GET',
               crossDomain: true,
               success: function (data, status, xhr) {
-                resolve(data);
+                resolve(data)
               },
               error: function (jqXHR, textStatus, errorThrown) {
-                reject(errorThrown);
+                reject(errorThrown)
               }
-            });
-          });
+            })
+          })
         })
       /* eslint-enable */
     }

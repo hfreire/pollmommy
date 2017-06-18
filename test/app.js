@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 /*
  * Copyright (c) 2017, Hugo Freire <hugo@exec.sh>.
  *
@@ -5,35 +7,32 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-describe('app', () => {
-  let subject // eslint-disable-line no-unused-vars
+describe('App', () => {
+  let subject
   let commander
-  let pollmommy
-  let log
-  let error
-  let exit
+  let Pollmommy
 
   before(() => {
-    pollmommy = td.object([ 'vote' ])
+    Pollmommy = td.constructor([ 'vote' ])
+
+    commander = td.object([ 'version', 'arguments', 'action', 'parse', 'outputHelp' ])
   })
 
-  beforeEach(() => {
-    commander = td.replace('commander', td.object([ 'version', 'arguments', 'action', 'parse', 'outputHelp' ]))
-
-    td.when(commander.version(), { ignoreExtraArgs: true }).thenReturn(commander)
-    td.when(commander.arguments(), { ignoreExtraArgs: true }).thenReturn(commander)
-
-    td.replace('../lib', function () { return pollmommy })
-  })
-
-  afterEach(() => {
-    td.reset()
-  })
+  afterEach(() => td.reset())
 
   describe('when voting successfully', () => {
-    beforeEach(() => {
-      const captor = td.matchers.captor()
+    let log
 
+    before(() => {
+      log = console.log
+    })
+
+    beforeEach(() => {
+      console.log = td.function()
+
+      const captor = td.matchers.captor()
+      td.when(commander.version(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.arguments(), { ignoreExtraArgs: true }).thenReturn(commander)
       td.when(commander.action(captor.capture())).thenReturn(commander)
       td.when(commander.parse(), { ignoreExtraArgs: true }).thenDo(() => {
         const action = captor.value
@@ -42,93 +41,97 @@ describe('app', () => {
 
         return commander
       })
+      td.replace('commander', commander)
 
-      td.when(pollmommy.vote(), { ignoreExtraArgs: true }).thenResolve()
+      td.when(Pollmommy.prototype.vote(), { ignoreExtraArgs: true }).thenResolve()
+      td.replace('../lib/pollmommy', Pollmommy)
 
-      log = console.log
-      console.log = td.function()
+      subject = require('../src/app')
     })
 
-    afterEach(() => {
-      delete require.cache[ require.resolve('../src/app') ]
-
+    after(() => {
       console.log = log
     })
 
-    it('should set commander version', (done) => {
-      subject = require('../src/app')
-
+    it('should set commander version', () => {
       td.verify(commander.version(), { times: 1, ignoreExtraArgs: true })
-
-      setTimeout(() => done(), 10)
     })
 
-    it('should set commander arguments', (done) => {
-      subject = require('../src/app')
-
+    it('should set commander arguments', () => {
       td.verify(commander.arguments('<pollUrl> <pollId> <pollOptionId>'), { times: 1 })
-
-      setTimeout(() => done(), 10)
     })
 
-    it('should parse process arguments', (done) => {
-      subject = require('../src/app')
-
+    it('should parse process arguments', () => {
       td.verify(commander.parse(process.argv), { times: 1 })
-
-      setTimeout(() => done(), 10)
     })
 
-    it('should vote', (done) => {
-      subject = require('../src/app')
-
-      td.verify(pollmommy.vote(), { times: 1, ignoreExtraArgs: true })
-
-      setTimeout(() => done(), 10)
+    it('should vote', () => {
+      td.verify(Pollmommy.prototype.vote(), { times: 1, ignoreExtraArgs: true })
     })
 
     it('should write "Voted successfully!" to stdout', (done) => {
-      subject = require('../src/app')
+      setImmediate(() => {
+        td.verify(console.log('Voted successfully!'), { times: 1 })
 
-      setTimeout(() => done(), 10)
+        done()
+      })
     })
   })
 
   describe('when failing to vote because of arguments', () => {
-    beforeEach(() => {
-      td.when(commander.action(), { ignoreExtraArgs: true }).thenReturn(commander)
-      td.when(commander.parse(), { ignoreExtraArgs: true }).thenReturn(commander)
+    let log
+    let error
+    let exit
 
-      td.when(pollmommy.vote(), { ignoreExtraArgs: true }).thenResolve()
-
+    before(() => {
       log = console.log
-      console.log = td.function()
 
       exit = process.exit
-      process.exit = td.function()
     })
 
-    afterEach(() => {
-      delete require.cache[ require.resolve('../src/app') ]
+    beforeEach(() => {
+      console.log = td.function()
 
+      process.exit = td.function()
+
+      td.when(commander.version(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.arguments(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.action(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.parse(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.replace('commander', commander)
+
+      td.when(Pollmommy.prototype.vote(), { ignoreExtraArgs: true }).thenResolve()
+      td.replace('../lib/pollmommy', Pollmommy)
+
+      subject = require('../src/app')
+    })
+
+    after(() => {
       console.log = log
 
       process.exit = exit
     })
 
     it('should process exit with value 1', () => {
-      subject = require('../src/app')
-
       td.verify(process.exit(1), { times: 1 })
     })
   })
 
   describe('when failing to vote because of error', () => {
+    let error
+
     const _error = new Error('my-error-message')
 
-    beforeEach(() => {
-      const captor = td.matchers.captor()
+    before(() => {
+      error = console.error
+    })
 
+    beforeEach(() => {
+      console.error = td.function()
+
+      const captor = td.matchers.captor()
+      td.when(commander.version(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.arguments(), { ignoreExtraArgs: true }).thenReturn(commander)
       td.when(commander.action(captor.capture())).thenReturn(commander)
       td.when(commander.parse(), { ignoreExtraArgs: true }).thenDo(() => {
         const action = captor.value
@@ -137,29 +140,146 @@ describe('app', () => {
 
         return commander
       })
+      td.replace('commander', commander)
 
-      td.when(pollmommy.vote(), { ignoreExtraArgs: true }).thenReject(_error)
+      td.when(Pollmommy.prototype.vote(), { ignoreExtraArgs: true }).thenReject(_error)
+      td.replace('../lib/pollmommy', Pollmommy)
 
-      error = console.error
-      console.error = td.function()
+      subject = require('../src/app')
     })
 
-    afterEach(() => {
-      delete require.cache[ require.resolve('../src/app') ]
-
+    after(() => {
       console.error = error
     })
 
     it('should write error to stderr', (done) => {
-      subject = require('../src/app')
-
-      setTimeout(() => {
+      setImmediate(() => {
         td.verify(console.error(_error), { times: 1 })
 
-        console.error = error
-
         done()
-      }, 10)
+      })
+    })
+  })
+
+  describe('when catching an uncaught exception', () => {
+    let error
+    let on
+    let exit
+    let callback
+    const _error = new Error('my-error-message')
+
+    before(() => {
+      error = console.error
+
+      on = process.on
+      exit = process.exit
+    })
+
+    beforeEach(() => {
+      console.error = td.function()
+
+      process.on = td.function()
+      process.exit = td.function()
+
+      td.when(process.on('uncaughtException'), { ignoreExtraArgs: true }).thenDo((event, _callback) => { callback = _callback })
+
+      const captor = td.matchers.captor()
+      td.when(commander.version(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.arguments(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.action(captor.capture())).thenReturn(commander)
+      td.when(commander.parse(), { ignoreExtraArgs: true }).thenDo(() => {
+        const action = captor.value
+
+        action('my-poll-url', 'my-poll-id', 'my-poll-option-id')
+
+        return commander
+      })
+      td.replace('commander', commander)
+
+      td.when(Pollmommy.prototype.vote(), { ignoreExtraArgs: true }).thenReject(_error)
+      td.replace('../lib/pollmommy', Pollmommy)
+
+      subject = require('../src/app')
+    })
+
+    after(() => {
+      console.error = error
+
+      process.on = on
+      process.exit = exit
+    })
+
+    it('should log error', () => {
+      callback(_error)
+
+      setImmediate(() => td.verify(console.error(_error), { times: 1 }))
+    })
+
+    it('should exit process with return value 1', () => {
+      callback()
+
+      setImmediate(() => td.verify(process.exit(1), { times: 1 }))
+    })
+  })
+
+  describe('when catching an unhandled rejection', () => {
+    let error
+    let on
+    let exit
+    let callback
+    const _error = new Error('my-error-message')
+
+    before(() => {
+      error = console.error
+
+      on = process.on
+      exit = process.exit
+    })
+
+    beforeEach(() => {
+      console.error = td.function()
+
+      process.on = td.function()
+      process.exit = td.function()
+
+      td.when(process.on('unhandledRejection'), { ignoreExtraArgs: true }).thenDo((event, _callback) => { callback = _callback })
+
+      const captor = td.matchers.captor()
+      td.when(commander.version(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.arguments(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.action(captor.capture())).thenReturn(commander)
+      td.when(commander.parse(), { ignoreExtraArgs: true }).thenDo(() => {
+        const action = captor.value
+
+        action('my-poll-url', 'my-poll-id', 'my-poll-option-id')
+
+        return commander
+      })
+      td.replace('commander', commander)
+
+      td.when(Pollmommy.prototype.vote(), { ignoreExtraArgs: true }).thenReject(_error)
+      td.replace('../lib/pollmommy', Pollmommy)
+
+      subject = require('../src/app')
+    })
+
+    after(() => {
+      console.error = error
+
+      process.on = on
+      process.exit = exit
+    })
+
+    it('should log error', () => {
+      callback(_error)
+
+      setImmediate(() => td.verify(console.error(_error), { times: 1 }))
+    })
+
+    it('should exit process with return value 1', () => {
+      callback()
+
+      setImmediate(() => td.verify(process.exit(1), { times: 1 }))
     })
   })
 })
