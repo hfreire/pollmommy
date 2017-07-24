@@ -1,3 +1,5 @@
+/* eslint-disable no-undef,no-useless-escape */
+
 /*
  * Copyright (c) 2017, Hugo Freire <hugo@exec.sh>.
  *
@@ -50,7 +52,6 @@ class Pollmommy {
     }
 
     const evaluate = function (pollId, pollOptionId) {
-      /* eslint-disable */
       var p = pollId
       var a = pollOptionId + ','
       var b = 1
@@ -132,7 +133,6 @@ class Pollmommy {
             })
           })
         })
-      /* eslint-enable */
     }
 
     return vote.bind(this)(pollUrl, pollId, pollOptionId, evaluate)

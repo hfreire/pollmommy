@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+
 /*
  * Copyright (c) 2017, Hugo Freire <hugo@exec.sh>.
  *
@@ -85,7 +87,7 @@ describe('pollmommy', () => {
           const _pollId = pollIdCaptor.value
           const _pollOptionId = pollOptionIdCaptor.value
 
-          _evaluate.should.not.be.null // eslint-disable-line
+          _evaluate.should.not.be.null
           _pollId.should.be.eql(pollId)
           _pollOptionId.should.be.eql(pollOptionId)
         })

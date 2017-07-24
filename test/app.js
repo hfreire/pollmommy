@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars,unicorn/no-process-exit */
 
 /*
  * Copyright (c) 2017, Hugo Freire <hugo@exec.sh>.
