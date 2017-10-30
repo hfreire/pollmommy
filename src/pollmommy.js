@@ -1,5 +1,3 @@
-/* eslint-disable no-undef,no-useless-escape */
-
 /*
  * Copyright (c) 2017, Hugo Freire <hugo@exec.sh>.
  *
@@ -11,131 +9,53 @@ const _ = require('lodash')
 const Promise = require('bluebird')
 
 const Nightmare = require('nightmare')
-Nightmare.Promise = require('bluebird')
+Nightmare.Promise = Promise
 
 const RandomHttpUserAgent = require('random-http-useragent')
 
-const path = require('path')
+const { join } = require('path')
 
-const jqueryPath = path.join(__dirname, '../share/jquery/jquery-3.1.0.min.js')
+const jqueryPath = join(__dirname, '../share/jquery/jquery-3.1.0.min.js')
 
-function vote (pollUrl, pollId, pollOptionId, evaluate) {
-  return RandomHttpUserAgent.get()
-    .then((userAgent) => {
-      const nightmare = Nightmare(this.options)
-
-      return nightmare
-        .useragent(userAgent)
-        .goto(pollUrl)
-        .inject('js', jqueryPath)
-        .evaluate(evaluate, pollId, pollOptionId)
-        .end()
-        .then()
-    })
-}
+const vote = require('./vote')
 
 const defaultOptions = {
-  show: false,
-  webPreferences: {
-    webSecurity: false
-  }
+  nightmare: {
+    show: false,
+    webPreferences: {
+      webSecurity: false
+    }
+  },
+  'random-http-useragent': {}
 }
 
 class Pollmommy {
   constructor (options = {}) {
-    this.options = _.defaultsDeep(options, defaultOptions)
+    this._options = _.defaultsDeep(options, defaultOptions)
+
+    RandomHttpUserAgent.configure(this._options[ 'random-http-useragent' ])
   }
 
   vote (pollUrl, pollId, pollOptionId) {
-    if (!pollUrl || !pollId || !pollOptionId) {
-      return Promise.reject(new Error('invalid parameters'))
-    }
+    return Promise.try(() => {
+      if (!pollUrl || !pollId || !pollOptionId) {
+        throw new Error('invalid arguments')
+      }
+    })
+      .then(() => RandomHttpUserAgent.get())
+      .then((userAgent) => {
+        const nightmare = Nightmare(this._options.nightmare)
 
-    const evaluate = function (pollId, pollOptionId) {
-      var p = pollId
-      var a = pollOptionId + ','
-      var b = 1
-      var o = ''
-      var va = 0
-      var cookie = 0
-      var url = encodeURIComponent(window.location.origin)
-      var now = new Date().getTime()
-
-      return new Promise(function (resolve, reject) {
-        $.ajax({
-          url: 'http://static.polldaddy.com/p/' + p + '.js',
-          type: 'GET',
-          crossDomain: true,
-          success: function (data, status, xhr) {
-            var h
-            try {
-              h = data.match(/var PDV_h\d+ = \'(.*)\';/)[ 1 ]
-            } catch (error) {
-              return reject(error)
-            }
-
-            resolve(h)
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            reject(errorThrown)
-          }
-        })
+        return nightmare
+          .useragent(userAgent)
+          .goto(pollUrl)
+          .inject('js', jqueryPath)
+          .evaluate(vote, pollId, pollOptionId)
+          .end()
+          .catch(() => {
+            throw new Error('poll not available')
+          })
       })
-        .then(function (h) {
-          return new Promise(function (resolve, reject) {
-            $.ajax({
-              url: 'https://polldaddy.com/n/' + h + '/' + p + '?' + now,
-              type: 'GET',
-              crossDomain: true,
-              success: function (data, status, xhr) {
-                var n
-                try {
-                  n = data.match(/PDV_n\d+=\'(.*)\';.*/)[ 1 ]
-                } catch (error) {
-                  return reject(error)
-                }
-
-                resolve(n)
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-                reject(errorThrown)
-              }
-            })
-          })
-        })
-        .then(function (n) {
-          return new Promise(function (resolve, reject) {
-            $.ajax({
-              url: 'http://polls.polldaddy.com/vote-js.php?p=' + p + '&a=' + a + '&b=' + b + '&o=' + o + '&va=' + va + '&cookie=' + cookie + '&n=' + n + '&url=' + url,
-              type: 'GET',
-              crossDomain: true,
-              success: function (data, status, xhr) {
-                resolve()
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-                reject(errorThrown)
-              }
-            })
-          })
-        })
-        .then(function () {
-          return new Promise(function (resolve, reject) {
-            $.ajax({
-              url: 'http://ipinfo.io/json',
-              type: 'GET',
-              crossDomain: true,
-              success: function (data, status, xhr) {
-                resolve(data)
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-                reject(errorThrown)
-              }
-            })
-          })
-        })
-    }
-
-    return vote.bind(this)(pollUrl, pollId, pollOptionId, evaluate)
   }
 }
 

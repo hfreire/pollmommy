@@ -15,32 +15,31 @@ describe('App', () => {
   before(() => {
     Pollmommy = td.constructor([ 'vote' ])
 
-    commander = td.object([ 'version', 'arguments', 'action', 'parse', 'outputHelp' ])
+    commander = td.object([ 'version', 'option', 'parse', 'outputHelp' ])
   })
 
   afterEach(() => td.reset())
 
   describe('when voting successfully', () => {
+    const pollUrl = 'my-poll-url'
+    const pollId = 'my-poll-id'
+    const pollOptionId = 'my-poll-option-id'
     let log
 
     before(() => {
       log = console.log
+
+      console.log = td.function()
+
+      commander.pollUrl = pollUrl
+      commander.pollId = pollId
+      commander.pollOptionId = pollOptionId
     })
 
     beforeEach(() => {
-      console.log = td.function()
-
-      const captor = td.matchers.captor()
       td.when(commander.version(), { ignoreExtraArgs: true }).thenReturn(commander)
-      td.when(commander.arguments(), { ignoreExtraArgs: true }).thenReturn(commander)
-      td.when(commander.action(captor.capture())).thenReturn(commander)
-      td.when(commander.parse(), { ignoreExtraArgs: true }).thenDo(() => {
-        const action = captor.value
-
-        action('my-poll-url', 'my-poll-id', 'my-poll-option-id')
-
-        return commander
-      })
+      td.when(commander.option(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.parse(), { ignoreExtraArgs: true }).thenReturn(commander)
       td.replace('commander', commander)
 
       td.when(Pollmommy.prototype.vote(), { ignoreExtraArgs: true }).thenResolve()
@@ -51,18 +50,14 @@ describe('App', () => {
 
     after(() => {
       console.log = log
+
+      delete commander.pollUrl
+      delete commander.pollId
+      delete commander.pollOptionId
     })
 
     it('should set commander version', () => {
       td.verify(commander.version(), { times: 1, ignoreExtraArgs: true })
-    })
-
-    it('should set commander arguments', () => {
-      td.verify(commander.arguments('<pollUrl> <pollId> <pollOptionId>'), { times: 1 })
-    })
-
-    it('should parse process arguments', () => {
-      td.verify(commander.parse(process.argv), { times: 1 })
     })
 
     it('should vote', () => {
@@ -80,23 +75,21 @@ describe('App', () => {
 
   describe('when failing to vote because of arguments', () => {
     let log
-    let error
     let exit
 
     before(() => {
       log = console.log
 
+      console.log = td.function()
+
       exit = process.exit
+
+      process.exit = td.function()
     })
 
     beforeEach(() => {
-      console.log = td.function()
-
-      process.exit = td.function()
-
       td.when(commander.version(), { ignoreExtraArgs: true }).thenReturn(commander)
-      td.when(commander.arguments(), { ignoreExtraArgs: true }).thenReturn(commander)
-      td.when(commander.action(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.option(), { ignoreExtraArgs: true }).thenReturn(commander)
       td.when(commander.parse(), { ignoreExtraArgs: true }).thenReturn(commander)
       td.replace('commander', commander)
 
@@ -118,28 +111,31 @@ describe('App', () => {
   })
 
   describe('when failing to vote because of error', () => {
+    const pollUrl = 'my-poll-url'
+    const pollId = 'my-poll-id'
+    const pollOptionId = 'my-poll-option-id'
     let error
-
+    let exit
     const _error = new Error('my-error-message')
 
     before(() => {
       error = console.error
+
+      console.error = td.function()
+
+      exit = process.exit
+
+      process.exit = td.function()
+
+      commander.pollUrl = pollUrl
+      commander.pollId = pollId
+      commander.pollOptionId = pollOptionId
     })
 
     beforeEach(() => {
-      console.error = td.function()
-
-      const captor = td.matchers.captor()
       td.when(commander.version(), { ignoreExtraArgs: true }).thenReturn(commander)
-      td.when(commander.arguments(), { ignoreExtraArgs: true }).thenReturn(commander)
-      td.when(commander.action(captor.capture())).thenReturn(commander)
-      td.when(commander.parse(), { ignoreExtraArgs: true }).thenDo(() => {
-        const action = captor.value
-
-        action('my-poll-url', 'my-poll-id', 'my-poll-option-id')
-
-        return commander
-      })
+      td.when(commander.option(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.parse(), { ignoreExtraArgs: true }).thenReturn(commander)
       td.replace('commander', commander)
 
       td.when(Pollmommy.prototype.vote(), { ignoreExtraArgs: true }).thenReject(_error)
@@ -150,11 +146,17 @@ describe('App', () => {
 
     after(() => {
       console.error = error
+
+      process.exit = exit
+
+      delete commander.pollUrl
+      delete commander.pollId
+      delete commander.pollOptionId
     })
 
     it('should write error to stderr', (done) => {
       setImmediate(() => {
-        td.verify(console.error(_error), { times: 1 })
+        td.verify(console.error(`Error: ${_error.message}`), { times: 1 })
 
         done()
       })
@@ -162,6 +164,9 @@ describe('App', () => {
   })
 
   describe('when catching an uncaught exception', () => {
+    const pollUrl = 'my-poll-url'
+    const pollId = 'my-poll-id'
+    const pollOptionId = 'my-poll-option-id'
     let error
     let on
     let exit
@@ -171,29 +176,27 @@ describe('App', () => {
     before(() => {
       error = console.error
 
+      console.error = td.function()
+
       on = process.on
+
+      process.on = td.function()
+
       exit = process.exit
+
+      process.exit = td.function()
+
+      commander.pollUrl = pollUrl
+      commander.pollId = pollId
+      commander.pollOptionId = pollOptionId
     })
 
     beforeEach(() => {
-      console.error = td.function()
-
-      process.on = td.function()
-      process.exit = td.function()
-
       td.when(process.on('uncaughtException'), { ignoreExtraArgs: true }).thenDo((event, _callback) => { callback = _callback })
 
-      const captor = td.matchers.captor()
       td.when(commander.version(), { ignoreExtraArgs: true }).thenReturn(commander)
-      td.when(commander.arguments(), { ignoreExtraArgs: true }).thenReturn(commander)
-      td.when(commander.action(captor.capture())).thenReturn(commander)
-      td.when(commander.parse(), { ignoreExtraArgs: true }).thenDo(() => {
-        const action = captor.value
-
-        action('my-poll-url', 'my-poll-id', 'my-poll-option-id')
-
-        return commander
-      })
+      td.when(commander.option(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.parse(), { ignoreExtraArgs: true }).thenReturn(commander)
       td.replace('commander', commander)
 
       td.when(Pollmommy.prototype.vote(), { ignoreExtraArgs: true }).thenReject(_error)
@@ -206,7 +209,12 @@ describe('App', () => {
       console.error = error
 
       process.on = on
+
       process.exit = exit
+
+      delete commander.pollUrl
+      delete commander.pollId
+      delete commander.pollOptionId
     })
 
     it('should log error', () => {
@@ -223,6 +231,9 @@ describe('App', () => {
   })
 
   describe('when catching an unhandled rejection', () => {
+    const pollUrl = 'my-poll-url'
+    const pollId = 'my-poll-id'
+    const pollOptionId = 'my-poll-option-id'
     let error
     let on
     let exit
@@ -232,29 +243,27 @@ describe('App', () => {
     before(() => {
       error = console.error
 
+      console.error = td.function()
+
       on = process.on
+
+      process.on = td.function()
+
       exit = process.exit
+
+      process.exit = td.function()
+
+      commander.pollUrl = pollUrl
+      commander.pollId = pollId
+      commander.pollOptionId = pollOptionId
     })
 
     beforeEach(() => {
-      console.error = td.function()
-
-      process.on = td.function()
-      process.exit = td.function()
-
       td.when(process.on('unhandledRejection'), { ignoreExtraArgs: true }).thenDo((event, _callback) => { callback = _callback })
 
-      const captor = td.matchers.captor()
       td.when(commander.version(), { ignoreExtraArgs: true }).thenReturn(commander)
-      td.when(commander.arguments(), { ignoreExtraArgs: true }).thenReturn(commander)
-      td.when(commander.action(captor.capture())).thenReturn(commander)
-      td.when(commander.parse(), { ignoreExtraArgs: true }).thenDo(() => {
-        const action = captor.value
-
-        action('my-poll-url', 'my-poll-id', 'my-poll-option-id')
-
-        return commander
-      })
+      td.when(commander.option(), { ignoreExtraArgs: true }).thenReturn(commander)
+      td.when(commander.parse(), { ignoreExtraArgs: true }).thenReturn(commander)
       td.replace('commander', commander)
 
       td.when(Pollmommy.prototype.vote(), { ignoreExtraArgs: true }).thenReject(_error)
@@ -267,7 +276,12 @@ describe('App', () => {
       console.error = error
 
       process.on = on
+
       process.exit = exit
+
+      delete commander.pollUrl
+      delete commander.pollId
+      delete commander.pollOptionId
     })
 
     it('should log error', () => {

@@ -25,16 +25,16 @@ npm install pollmommy -g
 ### How to use
 
 #### Fetch the required parameters
-Parameter | How to get it
-:---:|:---:
-`URL` | The poll's website URL, Polldaddy's poll website or the embedded poll website.
-`Poll id` | The Polldaddy's poll identifier, inspect the website HTML code and search for this pattern PDI_container`NUMBER` - `NUMBER` will be the id.
-`Poll option id` | The Polldaddy's poll option identifier, pick the desired option and inspect the website HTML code and search for this pattern PDI_answer`NUMBER` - `NUMBER` will be the id.
+Parameter | Description | How to get it
+:---:|:---:|:---:
+Poll URL | The poll's website URL. | Polldaddy's poll website or the embedded poll website.
+Poll id | The Polldaddy's poll identifier. | Inspect the website HTML code and search for this pattern PDI_container`NUMBER` - `NUMBER` will be the id.
+Poll option id | The Polldaddy's poll option identifier. | Pick the desired option and inspect the website HTML code and search for this pattern PDI_answer`NUMBER` - `NUMBER` will be the id.
 
 
 #### Use it in your terminal
 ```
-pollmommy http://bbc.co.uk/should-trump-be-fired.html 324345 12939
+pollmommy -u http://bbc.co.uk/should-trump-be-fired.html -i 324345 -o 12939
 ```
 
 #### Use it in your app
