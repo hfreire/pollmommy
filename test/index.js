@@ -5,18 +5,25 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const Pollmommy = require('../src/pollmommy')
-
 describe('Module', () => {
   let subject
+  let Pollmommy
+
+  before(() => {
+    Pollmommy = td.object([])
+  })
+
+  afterEach(() => td.reset())
 
   describe('when loading', () => {
     beforeEach(() => {
+      td.replace('../src/pollmommy', Pollmommy)
+
       subject = require('../src/index')
     })
 
     it('should export pollmommy', () => {
-      subject.should.be.eql(Pollmommy)
+      subject.should.be.equal(Pollmommy)
     })
   })
 })
