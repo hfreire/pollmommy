@@ -44,7 +44,7 @@ class Pollmommy {
     })
       .then(() => RandomHttpUserAgent.get())
       .then((userAgent) => {
-        const nightmare = Nightmare(this._options.nightmare)
+        const nightmare = Nightmare(_.get(this._options, 'nightmare'))
 
         return nightmare
           .useragent(userAgent)
