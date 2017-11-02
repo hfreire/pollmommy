@@ -33,7 +33,7 @@ class Pollmommy {
   constructor (options = {}) {
     this._options = _.defaultsDeep(options, defaultOptions)
 
-    RandomHttpUserAgent.configure(this._options[ 'random-http-useragent' ])
+    RandomHttpUserAgent.configure(_.get(this._options, 'random-http-useragent'))
   }
 
   vote (pollUrl, pollId, pollOptionId) {
