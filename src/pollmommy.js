@@ -33,7 +33,7 @@ class Pollmommy {
   constructor (options = {}) {
     this._options = _.defaultsDeep(options, defaultOptions)
 
-    RandomHttpUserAgent.configure(this._options[ 'random-http-useragent' ])
+    RandomHttpUserAgent.configure(_.get(this._options, 'random-http-useragent'))
   }
 
   vote (pollUrl, pollId, pollOptionId) {
@@ -44,7 +44,7 @@ class Pollmommy {
     })
       .then(() => RandomHttpUserAgent.get())
       .then((userAgent) => {
-        const nightmare = Nightmare(this._options.nightmare)
+        const nightmare = Nightmare(_.get(this._options, 'nightmare'))
 
         return nightmare
           .useragent(userAgent)

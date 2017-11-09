@@ -9,7 +9,7 @@
 [![Version](https://img.shields.io/npm/v/pollmommy.svg)](https://www.npmjs.com/package/pollmommy)
 [![Downloads](https://img.shields.io/npm/dt/pollmommy.svg)](https://www.npmjs.com/package/pollmommy) 
 
-Uses a headless browser to visit a poll website and inject JavaScript code to perform the desired poll voting.
+> Uses a headless browser to visit a poll website and inject JavaScript code to perform the desired poll voting.
 
 <p align="center"><img src="https://raw.githubusercontent.com/hfreire/pollmommy/master/share/github/voting-screencapture.gif" width="640"></p>
 
