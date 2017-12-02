@@ -31,7 +31,7 @@ const defaultOptions = {
 
 class Pollmommy {
   constructor (options = {}) {
-    this._options = _.defaultsDeep(options, defaultOptions)
+    this._options = _.defaultsDeep({}, options, defaultOptions)
 
     RandomHttpUserAgent.configure(_.get(this._options, 'random-http-useragent'))
   }
