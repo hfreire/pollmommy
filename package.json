@@ -2,6 +2,9 @@
   "name": "pollmommy",
   "description": "Hack your vote out of Polldaddy surveys - used by BBC, Microsoft, Forbes, Pfizer, IBM",
   "version": "0.0.0",
+  "engines": {
+    "node": ">= 6.0.0"
+  },
   "main": "lib/index.js",
   "bin": {
     "pollmommy": "bin/app.js"
@@ -46,7 +49,8 @@
   },
   "config": {
     "pre-git": {
-      "commit-msg": "conventional"
+      "commit-msg": "conventional",
+      "allow-untracked-files": true
     }
   },
   "release": {
