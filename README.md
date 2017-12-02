@@ -1,11 +1,8 @@
 # :star: Hack your :see_no_evil: vote out of :chart_with_upwards_trend: Polldaddy surveys - used by :moneybag: BBC, Microsoft, Forbes, Pfizer, IBM
 
-[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 [![Build Status](https://travis-ci.org/hfreire/pollmommy.svg?branch=master)](https://travis-ci.org/hfreire/pollmommy)
 [![Coverage Status](https://coveralls.io/repos/github/hfreire/pollmommy/badge.svg?branch=master)](https://coveralls.io/github/hfreire/pollmommy?branch=master)
-[![Greenkeeper badge](https://badges.greenkeeper.io/hfreire/pollmommy.svg)](https://greenkeeper.io/)
 [![](https://img.shields.io/github/release/hfreire/pollmommy.svg)](https://github.com/hfreire/pollmommy/releases)
-[![](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/npm/v/pollmommy.svg)](https://www.npmjs.com/package/pollmommy)
 [![Downloads](https://img.shields.io/npm/dt/pollmommy.svg)](https://www.npmjs.com/package/pollmommy) 
 
@@ -48,5 +45,13 @@ pollmommy.vote('http://bbc.co.uk/should-trump-be-fired.html', 324345, 12939)
   .catch((error) => console.error(error.message))
 ```
 
+### How to contribute
+You can contribute either with code (e.g., new features, bug fixes and documentation) or by [donating 5 EUR](https://paypal.me/hfreire/5). You can read the [contributing guidelines](./docs/CONTRIBUTING.md) for instructions on how to contribute with code. 
+
+All donation proceedings will go to the [Sverige för UNHCR](https://sverigeforunhcr.se), a swedish partner of the [UNHCR - The UN Refugee Agency](http://www.unhcr.org), a global organisation dedicated to saving lives, protecting rights and building a better future for refugees, forcibly displaced communities and stateless people.
+
 ### Used by
 * [make-porto-win-european-best-destination-2017](https://github.com/hfreire/make-porto-win-european-best-destination-2017) - Let's make :city_sunrise: Porto :trophy: win the :euro: European Best Destination :tada: 2017
+
+### License
+Read the [license](./LICENSE.md) for permissions and limitations.

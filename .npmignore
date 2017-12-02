@@ -8,3 +8,4 @@ test/
 .eslintrc
 .travis.yml
 README.md
+docs/
