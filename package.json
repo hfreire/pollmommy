@@ -45,7 +45,7 @@
     "mocha": "5.0.0",
     "pre-git": "3.17.0",
     "semantic-release": "12.4.0",
-    "testdouble": "3.3.4"
+    "testdouble": "3.3.5"
   },
   "config": {
     "pre-git": {
