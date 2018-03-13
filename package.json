@@ -53,9 +53,6 @@
       "allow-untracked-files": true
     }
   },
-  "release": {
-    "analyzeCommits": "simple-commit-message"
-  },
   "scripts": {
     "clean": "rm -rf lib coverage",
     "lint": "node_modules/.bin/eslint . --ext .json --ext .js",
