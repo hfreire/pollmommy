@@ -226,7 +226,7 @@ describe('App', () => {
     it('should exit process with return value 1', () => {
       callback()
 
-      setImmediate(() => td.verify(process.exit(1), { times: 1 }))
+      setImmediate(() => td.verify(process.exit(1)))
     })
   })
 
