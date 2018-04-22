@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars,unicorn/no-process-exit */
 
 /*
- * Copyright (c) 2017, Hugo Freire <hugo@exec.sh>.
+ * Copyright (c) 2018, Hugo Freire <hugo@exec.sh>.
  *
  * This source code is licensed under the license found in the
  * LICENSE.md file in the root directory of this source tree.
@@ -293,7 +293,7 @@ describe('App', () => {
     it('should exit process with return value 1', () => {
       callback()
 
-      setImmediate(() => td.verify(process.exit(1), { times: 1 }))
+      setImmediate(() => td.verify(process.exit(1)))
     })
   })
 })
