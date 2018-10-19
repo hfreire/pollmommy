@@ -20,9 +20,9 @@
   },
   "homepage": "https://github.com/hfreire/pollmommy#readme",
   "dependencies": {
-    "bluebird": "3.5.1",
-    "commander": "2.16.0",
-    "lodash": "4.17.9",
+    "bluebird": "3.5.2",
+    "commander": "2.19.0",
+    "lodash": "4.17.11",
     "nightmare": "3.0.1",
     "random-http-useragent": "1.1.5"
   },
@@ -35,17 +35,17 @@
     "eslint": "5.0.1",
     "eslint-config-hfreire": "1.1.0",
     "eslint-plugin-import": "2.13.0",
-    "eslint-plugin-json": "1.2.0",
-    "eslint-plugin-mocha": "5.1.0",
+    "eslint-plugin-json": "1.2.1",
+    "eslint-plugin-mocha": "5.2.0",
     "eslint-plugin-node": "7.0.1",
-    "eslint-plugin-promise": "3.8.0",
-    "eslint-plugin-standard": "3.1.0",
-    "eslint-plugin-unicorn": "4.0.3",
+    "eslint-plugin-promise": "4.0.1",
+    "eslint-plugin-standard": "4.0.0",
+    "eslint-plugin-unicorn": "6.0.1",
     "istanbul": "0.4.5",
     "mocha": "5.2.0",
     "pre-git": "3.17.1",
-    "semantic-release": "15.5.2",
-    "testdouble": "3.8.1"
+    "semantic-release": "15.10.3",
+    "testdouble": "3.8.2"
   },
   "config": {
     "pre-git": {
