@@ -11,7 +11,7 @@ git clone https://github.com/my-github-username/pollmommy
 
 Change current directory
 ```
-cd get-me-date
+cd pollmommy
 ```
 
 Install NPM dependencies
