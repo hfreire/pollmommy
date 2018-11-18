@@ -64,7 +64,5 @@
     "semantic-release": "./node_modules/.bin/semantic-release",
     "commit": "./node_modules/.bin/commit-wizard"
   },
-  "release": {
-    "analyzeCommits": "simple-commit-message"
-  }
+  "release": {}
 }
