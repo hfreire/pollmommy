@@ -63,6 +63,5 @@
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "semantic-release": "./node_modules/.bin/semantic-release",
     "commit": "./node_modules/.bin/commit-wizard"
-  },
-  "release": {}
+  }
 }
