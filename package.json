@@ -24,7 +24,8 @@
     "commander": "2.20.0",
     "lodash": "4.17.11",
     "nightmare": "3.0.2",
-    "random-http-useragent": "1.1.13"
+    "random-http-useragent": "1.1.13",
+    "snyk": "^1.192.0"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -62,6 +63,9 @@
     "prepublish": "npm run compile",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "semantic-release": "./node_modules/.bin/semantic-release",
-    "commit": "./node_modules/.bin/commit-wizard"
-  }
+    "commit": "./node_modules/.bin/commit-wizard",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "snyk": true
 }
