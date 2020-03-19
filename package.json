@@ -31,7 +31,7 @@
     "babel-preset-env": "1.7.0",
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
-    "coveralls": "3.0.9",
+    "coveralls": "3.0.10",
     "eslint": "6.5.1",
     "eslint-config-hfreire": "1.1.2",
     "eslint-plugin-import": "2.20.1",
