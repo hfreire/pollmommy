@@ -32,19 +32,21 @@
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "coveralls": "3.0.11",
-    "eslint": "6.5.1",
-    "eslint-config-hfreire": "1.1.2",
+    "eslint": "6.8.0",
+    "eslint-config-hfreire": "2.0.7",
     "eslint-plugin-import": "2.20.1",
+    "eslint-plugin-jest": "23.8.2",
     "eslint-plugin-json": "2.1.1",
     "eslint-plugin-mocha": "6.3.0",
     "eslint-plugin-node": "11.0.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-standard": "4.0.1",
-    "eslint-plugin-unicorn": "15.0.1",
+    "eslint-plugin-unicorn": "17.2.0",
     "istanbul": "0.4.5",
     "mocha": "7.1.1",
     "pre-git": "3.17.1",
     "semantic-release": "17.0.4",
+    "snyk": "1.303.0",
     "testdouble": "3.13.1"
   },
   "config": {
@@ -53,15 +55,21 @@
       "allow-untracked-files": true
     }
   },
+  "snyk": true,
   "scripts": {
-    "clean": "rm -rf lib bin coverage",
-    "lint": "node_modules/.bin/eslint . --ext .json --ext .js",
-    "coverage": "node_modules/.bin/istanbul cover --include-all-sources --root src --print detail ./node_modules/mocha/bin/_mocha -- --recursive test",
-    "test": "npm run lint && npm run coverage",
-    "compile": "npm run clean && mkdir -p bin lib && ./node_modules/.bin/babel src/ -d lib && mv lib/app.js bin/app.js",
-    "prepublish": "npm run compile",
+    "eslint": "node_modules/.bin/eslint --ext .json --ext .js .",
+    "istanbul": "node_modules/.bin/istanbul cover --include-all-sources --root src --print detail ./node_modules/mocha/bin/_mocha -- --recursive test",
+    "snyk:test": "./node_modules/.bin/snyk test",
+    "snyk:protect": "./node_modules/.bin/snyk protect",
+    "babel": "mkdir -p lib bin && ./node_modules/.bin/babel src/ -d lib && mv lib/app.js bin/app.js",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "semantic-release": "./node_modules/.bin/semantic-release",
-    "commit": "./node_modules/.bin/commit-wizard"
+    "clean": "rm -rf lib bin coverage",
+    "lint": "npm run eslint",
+    "prepare": "npm run snyk:protect",
+    "test": "npm run clean && npm run lint && npm run istanbul",
+    "compile": "npm run clean && npm run babel",
+    "commit": "./node_modules/.bin/commit-wizard",
+    "prepublish": "npm run compile"
   }
 }
