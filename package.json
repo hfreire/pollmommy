@@ -45,7 +45,7 @@
     "istanbul": "0.4.5",
     "mocha": "7.1.1",
     "pre-git": "3.17.1",
-    "semantic-release": "17.0.6",
+    "semantic-release": "17.0.7",
     "snyk": "1.307.0",
     "testdouble": "3.13.1"
   },
