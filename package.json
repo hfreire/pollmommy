@@ -24,7 +24,8 @@
     "commander": "5.1.0",
     "lodash": "4.17.15",
     "nightmare": "3.0.2",
-    "random-http-useragent": "1.1.23"
+    "random-http-useragent": "1.1.23",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
@@ -46,7 +47,6 @@
     "mocha": "7.1.2",
     "pre-git": "3.17.1",
     "semantic-release": "17.0.7",
-    "snyk": "1.316.1",
     "testdouble": "3.13.1"
   },
   "config": {
@@ -66,10 +66,11 @@
     "semantic-release": "./node_modules/.bin/semantic-release",
     "clean": "rm -rf lib bin coverage",
     "lint": "npm run eslint",
-    "prepare": "npm run snyk:protect",
+    "prepare": "npm run snyk-protect && npm run snyk:protect",
     "test": "npm run clean && npm run lint && npm run istanbul",
     "compile": "npm run clean && npm run babel",
     "commit": "./node_modules/.bin/commit-wizard",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run compile",
+    "snyk-protect": "snyk protect"
   }
 }
