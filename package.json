@@ -22,7 +22,7 @@
   "dependencies": {
     "bluebird": "3.7.2",
     "commander": "5.1.0",
-    "lodash": "4.17.15",
+    "lodash": "4.17.18",
     "nightmare": "3.0.2",
     "random-http-useragent": "1.1.25"
   },
