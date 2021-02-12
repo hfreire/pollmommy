@@ -43,7 +43,7 @@
     "eslint-plugin-standard": "5.0.0",
     "eslint-plugin-unicorn": "19.0.1",
     "istanbul": "0.4.5",
-    "mocha": "8.2.1",
+    "mocha": "8.3.0",
     "pre-git": "3.17.1",
     "semantic-release": "17.3.8",
     "snyk": "1.450.0",
