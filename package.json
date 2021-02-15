@@ -46,7 +46,7 @@
     "mocha": "8.3.0",
     "pre-git": "3.17.1",
     "semantic-release": "17.3.9",
-    "snyk": "1.452.0",
+    "snyk": "1.454.0",
     "testdouble": "3.16.1"
   },
   "config": {
