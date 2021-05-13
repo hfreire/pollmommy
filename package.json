@@ -24,7 +24,7 @@
     "commander": "7.1.0",
     "lodash": "4.17.21",
     "nightmare": "3.0.2",
-    "random-http-useragent": "1.1.33"
+    "random-http-useragent": "1.1.34"
   },
   "devDependencies": {
     "babel-cli": "6.26.0",
